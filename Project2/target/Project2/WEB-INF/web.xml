@@ -33,6 +33,58 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+<!-- Cometd Servlet -->
+<filter>
+     <filter-name>continuation</filter-name>
+     <filter-class>org.eclipse.jetty.continuation.ContinuationFilter</filter-class>
+</filter>
+<filter-mapping>
+     <filter-name>continuation</filter-name>
+     <url-pattern>/Project2/*</url-pattern>
+</filter-mapping>
+
+	<servlet>
+		<servlet-name>Project2</servlet-name>
+		<servlet-class>org.cometd.annotation.AnnotationCometdServlet</servlet-class>
+		<init-param>
+			<param-name>timeout</param-name>
+			<param-value>20000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>interval</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxInterval</param-name>
+			<param-value>10000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>maxLazyTimeout</param-name>
+			<param-value>5000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>long-polling.multiSessionInterval</param-name>
+			<param-value>2000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<init-param>
+			<param-name>transports</param-name>
+			<param-value>org.cometd.websocket.server.WebSocketTransport</param-value>
+		</init-param>
+		 <init-param>
+			<param-name>services</param-name>
+			<param-value>com.collaboration.service.ChatService</param-value>
+		</init-param>
+		
+	</servlet>
+ 	  <servlet-mapping>
+		<servlet-name>Project2</servlet-name>
+		<url-pattern>/Project2/*</url-pattern>
+	</servlet-mapping> 
+ 
 
 
 </web-app>

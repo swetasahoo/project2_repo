@@ -1,10 +1,14 @@
 package com.collaboration.model;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import java.io.Serializable;
 
-public class uploadImage {
+import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+public class uploadImage implements Serializable{
 	private String filename;
-	private CommonsMultipartFile fileData;
+	//private CommonsMultipartFile fileData;
+	private MultipartFile fileData;
 
 	public String getFilename() {
 		return filename;
@@ -16,12 +20,24 @@ public class uploadImage {
 	}
 
 
-	public CommonsMultipartFile getFileData() {
+	public MultipartFile getFileData() {
+		return fileData;
+	}
+
+
+	public void setFileData(MultipartFile fileData) {
+		this.fileData = fileData;
+	}
+
+
+	/*public CommonsMultipartFile getFileData() {
 		return fileData;
 	}
 
 
 	public void setFileData(CommonsMultipartFile fileData) {
 		this.fileData = fileData;
-	}
+	}*/
+	
+	
 }

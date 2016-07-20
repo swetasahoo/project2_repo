@@ -1,4 +1,4 @@
-package com.collaboration.controller;
+/*package com.collaboration.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -68,4 +68,32 @@ public class ChatController {
 		}
 	}
 
+}
+*/
+package com.collaboration.controller;
+
+import java.security.Principal;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class ChatController {
+
+	@RequestMapping(value={"/Chat"})
+    public String openChat(ModelMap map,Principal principal)
+    {
+		String name=principal.getName();
+		map.addAttribute("myName", name);
+    	return "Chat";
+    }
+	@RequestMapping(value="/application")
+    public String chat(ModelMap map,Principal principal)
+    {
+        String name=principal.getName();
+      //  System.out.println("Principal"+name);
+        map.addAttribute("myName", name);
+    	return "application";
+    }
 }

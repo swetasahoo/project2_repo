@@ -17,8 +17,8 @@ http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<!-- <beans:property name="url"	value="jdbc:oracle:thin:@106.204.165.16:1521:XE" /> -->
 		<beans:property name="url"	value="jdbc:oracle:thin:@localhost:1521:XE" />
-		<beans:property name="username" value="Project2" />
-		<beans:property name="password" value="password" />
+		<beans:property name="username" value="niit" />
+		<beans:property name="password" value="india" />
 		<!-- <beans:property name="proxyTargetClass" value="false"></beans:property> -->
 	</beans:bean>
 
@@ -58,7 +58,7 @@ http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 			login-processing-url="/j_spring_security_check" default-target-url="/home"
 			authentication-failure-url="/?error" username-parameter="username"
 			password-parameter="password" />
-		<security:logout logout-success-url="/logout" />
+		<security:logout logout-success-url="/logout" invalidate-session="true"/>
 		<security:csrf disabled="true"/>
 	</security:http>
 	<security:authentication-manager>

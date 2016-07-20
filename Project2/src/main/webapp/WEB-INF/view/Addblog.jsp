@@ -43,7 +43,7 @@
   <div class="row content">
   <h4>${u.getName()}'s Home</h4>
 
-  <form:form method="POST" action="saveblog" class="form-signin" commandName="blogpage" enctype="multipart/form-data">>
+  <form:form method="POST" action="saveblog" class="form-signin" commandName="blogpage" enctype="multipart/form-data">
 <table>
 <tr>
         <td>
@@ -65,9 +65,9 @@
         </td>
     </tr>
     <tr>
-    <td>Please select a file to upload :</td>
+    <td><form:label path="blogcontent"><spring:message text="Upload File"/></form:label></td>
     <td> <form:input type="file" path="doc" />
-		<input type="submit" value="upload" /></td>
+		</td>
     </tr>
     
     
@@ -78,10 +78,34 @@
     </tr>
 </table>  
 </form:form>
-  
 
-	
+<c:if test="${rolename == 'ROLE_ADMIN'}">
+ <c:if test="${!empty pendingblog}">
+	<table border="1" id="myTable" class="display table" width="100%" >
+	<tr>
+		<th>Blog ID</td>
+		<th>Blog Title</th>
+		<th>Blog Description</th>
+		<th>Approved</th>
+		<th>Delete</th>
+	</tr>
+        <c:forEach items="${pendingblog}" var="p">
+            <tr>
+                <td>${p.blogid}</td>
+                <td>${p.blogtitle}</td>
+                <td>${p.blogcontent}</td>
+                
+                <td><a href="<c:url value='approved/${p.blogid}' />" >Approved</a></td>
+                    <td><a href="<c:url value='delete/${p.blogid}'/>" >Delete</a></td>
+                
+            </tr>
+        </c:forEach>
+    </table>
+    </c:if>
+    </c:if>
   
+    
+
 </div>
 </div>
 <footer class="container-fluid">

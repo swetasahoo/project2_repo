@@ -57,21 +57,24 @@ footer {
 
 			<div class="col-sm-9">
 
-				<h4>You are Logged in:${user.name}</h4>
+				<h4>You are Logged in:${user211.name}</h4> 
 
 
-				<form:form commandName="user" class="form-signin" method="post"
+				<form:form commandName="userupdate" class="form-signin" method="post"
 					action="saveupdate">
 					<table>
+					<tr>
+						<td><form:label path="Email">Enter Phone Number</form:label></td>
+							<td><td><form:input path="Email" class="form-control"  value="${user211.email}"/></td>
+						</tr>
 						
 						<tr>
-							<td><form:label path="Email">Enter Email</form:label></td>
-							<td><form:input type="email" path="Email" value="${user.Email}" 
-									class="form-control" /></td>
+						<td><form:label path="phno">Enter Phone Number</form:label></td>
+							<td><td><form:input path="phno" class="form-control"  value=" ${user211.phno}"/></td>
 						</tr>
 						<tr>
 							<td><form:label path="Address">Enter Address</form:label></td>
-							<td><<td><form:textarea path="Address" class="form-control" /></td>
+							<td><td><form:input path="Address" class="form-control" value="${user211.address}"/></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="center"><button

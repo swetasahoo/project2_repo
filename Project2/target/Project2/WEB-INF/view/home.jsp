@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	isELIgnored="false" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html lang="en">
 <head>
 <title>Home page</title>
@@ -59,37 +60,34 @@ footer {
 				</h5>
 				<table>
 					<tr>
-						<td><img src="<c:url value="C://test111/${name}.jpg" />"
-							alt="Upload Picture" height="150" width="150" /></td>
-						<td rowspan="2">
-							<form action="statusupdate" method="post">
-								<form:textarea path="status" class="form-control"
-									placeholder="Update Status" />
-								<input type="submit" value="Update" />
-							</form>
-						</td>
-					</tr>
-					<tr>
-						<td><div>
+					<td width="20%"><img src="<c:url value="C://test111/${name}.jpg" />"
+							alt="Upload Picture" height="150" width="150" />
+							<div>
 								<a href="uploadimage">Upload Image</a>
 							</div></td>
-
-
+					
+					
 					</tr>
-
-
+					<tr>
+					<div>
+					<td width="80%">
+						
+					<a href="updateStatus">Update Status</a>
+					</div>
+					</td>
+					</tr>
+					
 				</table>
-
-
-
+				
+			<div>
+			<table border="1">
+			<tr><th>User Status</th><th> On Date</th></tr>
+				<c:forEach var="userstaus" items="${userstatus}">
+						<tr><td>${userstaus.mystatus}</td><td>${userstaus.datetime}</td></tr>
+					</c:forEach>
+					</table>
 				<!-- Second Blog Post -->
-
-
-
-
-
-
-				<div class="row"></div>
+			</div>	
 			</div>
 		</div>
 	</div>

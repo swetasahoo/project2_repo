@@ -7,6 +7,8 @@ public interface UserDAO {
 	public void save(Users o);
 	public String getUserName(String uname);
 	public Users getUserDetails(String name);
+	public String getUserRole(String name);
 	//public Users updateStatus(Users status);
 	public Users updateStatus(String stat, String name);
+	public void saveorUpdate(Users u,String name);
 }

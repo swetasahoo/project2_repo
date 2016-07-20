@@ -26,6 +26,11 @@ public class UserDAOService {
 		udi.save(o);
 		
 	}
+	public void saveorUpdate(Users u,String name)
+	{
+		System.out.println("service");
+		udi.saveorUpdate(u,name);
+	}
 	public String getUserName(String uname)
 	{
 		return udi.getUserName(uname);
@@ -39,5 +44,9 @@ public class UserDAOService {
 		
 		// TODO Auto-generated method stub
 		
+	}
+	public String getUserRole(String name)
+	{
+		return udi.getUserRole(name);
 	}
 }

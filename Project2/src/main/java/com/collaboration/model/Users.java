@@ -3,6 +3,7 @@ package com.collaboration.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,9 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 
@@ -27,59 +33,82 @@ public class Users implements Serializable {
 	transient private String OPassword;
 	private String	Name;
 	private String	Email;
+	private String phno;	
 	private String	Location;
-	private boolean active;
+	private int active;
 	private String Address;
-	private String status;
-	
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public String getAddress() {
 		return Address;
 	}
-
+	
 	public void setAddress(String address) {
 		Address = address;
 	}
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch=FetchType.EAGER )
-	private Set<MyBlog> blog=new HashSet<MyBlog>();
+	public void setPhno(String phno) {
+		this.phno = phno;
+	}
+	public String getPhno() {
+		return phno;
+	}
+	
+	//@OneToMany(mappedBy="forumcomments1", cascade=CascadeType.ALL)
+	//List<Users> user;
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+	@JsonIgnore
+	private List<ForumComments1234> forumcomments1;
+	
+	
+	@OneToMany(mappedBy="user1",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JsonIgnore
+	private List<UserStatus> userstatus;
+	
+	
+	
+	public List<UserStatus> getUserstatus() {
+		return userstatus;
+	}
+
+	public void setUserstatus(List<UserStatus> userstatus) {
+		this.userstatus = userstatus;
+	}
+	
+	public List<ForumComments1234> getForumcomments1() {
+		return forumcomments1;
+	}
+
+	public void setForumcomments1(List<ForumComments1234> forumcomments1) {
+		this.forumcomments1 = forumcomments1;
+	}
+
+	
+	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch=FetchType.EAGER )*/
+/*	private Set<MyBlog> blog=new HashSet<MyBlog>();*/
 	public String getOPassword() {
 		return OPassword;
 	}
 
+	public int getActive() {
+		return active;
+	}
+	
 	public void setOPassword(String oPassword) {
 		OPassword = oPassword;
 	}
 	
-	public Set<MyBlog> getBlog() {
-		return blog;
-	}
-	
-
-
-
-	public void setBlog(Set<MyBlog> blog) {
-		this.blog = blog;
-	}
 	
 	public Users()
 	{
 		
 	}
 	
-	public void setActive(boolean active) {
-		this.active = true;
+	public void setActive(int i) {
+		this.active = i;
 	}
 	
 	
-	public boolean isActive() {
-		return  true;
+	public int isActive() {
+		return  1;
 	}
 	
 

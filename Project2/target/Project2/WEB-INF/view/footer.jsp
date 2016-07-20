@@ -9,7 +9,7 @@
 <body>
 <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy; Sweta Collaborative Website 2014</p>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

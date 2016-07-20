@@ -1,6 +1,7 @@
 package com.collaboration.controller;
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,10 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.collaboration.DAO.BlogDAOService;
+import com.collaboration.DAO.CommentDAOService;
+import com.collaboration.DAO.ForumDAOService;
 import com.collaboration.DAO.OnlineDAOService;
 import com.collaboration.DAO.UserDAOService;
+import com.collaboration.DAO.UserStatusDAO;
+import com.collaboration.DAO.UserStatusDAOService;
+import com.collaboration.model.Forum;
+import com.collaboration.model.ForumComments1234;
 import com.collaboration.model.MyBlog;
 import com.collaboration.model.OnlineUsers;
+import com.collaboration.model.UserStatus;
 import com.collaboration.model.Users;
 import com.collaboration.model.uploadImage;
 
@@ -38,80 +47,56 @@ public class UserController {
 	
 	@Autowired
 	UserDAOService uds;
-	@Autowired
-	BlogDAOService bds;
+	
 	@Autowired
 	OnlineDAOService ods;
+	@Autowired
+	ForumDAOService fds;
+	@Autowired
+	CommentDAOService com;
+	
 	/*public UserController(UserDAOService ud)
 	{
 		
 		this.uds=ud;
 		
 	}*/
-	@ModelAttribute("blogpage")
-	public MyBlog construct()
-	{
-		System.out.println("hell");
-		return new MyBlog();
-	}
-	@RequestMapping(value="/saveblog",method=RequestMethod.POST)
-	public String doRegister(@ModelAttribute("blogpage") MyBlog bl1,Model m)
-	{
-		System.out.println("add blog");
-		//System.out.println(user.isActive());
-		//uds.save(user);
-		//m.addAttribute("u",user); 	
-		return "sendAdmin";
-	}
-	@RequestMapping("/addblog")
-	public ModelAndView addblogpage()
-	{
-		
-		ModelAndView o=new ModelAndView("Addblog");
-		return o;
-	}
 	
-	@RequestMapping("/Blog")//Blog
-	public ModelAndView blogpage()
-	{
-		ModelAndView o=new ModelAndView("Blog");
-		
-		return o;
-	}
-	@RequestMapping("/forum")
-	public ModelAndView forumpage()
-	{
-		ModelAndView o=new ModelAndView("forum");
-		
-		return o;
-	}
-	@ModelAttribute("user")
+	
+	@ModelAttribute("userupdate")
 	public Users constr()
 	{
 		return new Users();
 	}
 	
 	@RequestMapping(value="/saveupdate",method=RequestMethod.POST)
-	public String doRegister(@ModelAttribute("user") Users user,Model m)
+	public String doRegister(@ModelAttribute("userupdate") Users user,Model m,Principal p)
 	{
-		
+		String name = p.getName();
 		System.out.println(user.isActive());
+		System.out.println(user.getAddress());
+	
 		//uds.save(user);
-		//m.addAttribute("u",user); 	
-		return "";
+		uds.saveorUpdate(user,name);
+		m.addAttribute("u",user); 	
+		return "redirect:/home";
 	}
 	@RequestMapping("/profileupdate")
-	public String profilepage(Principal principal,Model m)
+	public ModelAndView profilepage(Principal principal)
 	{
+		
 		String name = principal.getName();
 		System.out.println(name);
 		String nm=uds.getUserName(name);
 		Users u=uds.getUserDetails(name);
-		m.addAttribute("name",nm);
-		m.addAttribute("user",u);
+		//m.addAttribute("name",nm);
+		//m.addAttribute("user",u);
+		System.out.println(u.getEmail());
+		System.out.println("address"+u.getAddress());
+		System.out.println(u.getPhno());
 		//ModelAndView o=new ModelAndView("profileupdate");
 		
-		return "profileupdate";
+		return new ModelAndView("profileupdate","user211",u);
 	}
 	@RequestMapping("/uploadimage")
 	public ModelAndView uploadimage()
@@ -137,7 +122,23 @@ public class UserController {
 			if (filea.getSize() > 0) {
 			inputStream = filea.getInputStream();
 			// File realUpload = new File("C:/");
-			outputStream = new FileOutputStream("C:\\test111\\"	+ p.getName()+".jpg");
+			File dir=null;
+			System.out.println("file try");
+			try{
+			 dir = new File("C:\\test111");
+			 
+			if (!dir.exists())
+			{
+				dir.mkdirs();
+				System.out.println("directory created");
+			}
+			outputStream = new FileOutputStream(dir+ "\\"+p.getName()+".jpg");
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			//outputStream = new FileOutputStream("C:\\test111\\"	+ p.getName()+".jpg");
 			System.out.println("====22=========");
 			System.out.println(filea.getOriginalFilename());
 			System.out.println("=============");
@@ -149,7 +150,8 @@ public class UserController {
 			}
 			outputStream.close();
 			inputStream.close();
-			session.setAttribute("uploadFile", "C:\\test111\\"+ p.getName()+".jpg");
+			//session.setAttribute("uploadFile", "C:\\test111\\"+ p.getName()+".jpg");
+			session.setAttribute("uploadFile", dir+"\\"+ p.getName()+".jpg");
 			}
 			} catch (Exception e) {
 			e.printStackTrace();
@@ -158,30 +160,11 @@ public class UserController {
 			
 	}
 	
-	@RequestMapping("/chatwindow")
-	public ModelAndView chatpage(Principal principal)
-	{
-		/*String name = principal.getName();
-		
-		String nm=uds.getUserName(name);
-		ods.save(new OnlineUsers(nm,true));
-		
-		List<OnlineUsers> l=ods.getAllUser();*/
-		
-		ModelAndView o=new ModelAndView("chat");
-		
-		return o;
-	}
 	
-	@RequestMapping("update")
-public String updateStatus(HttpServletRequest r, Principal p)
-{
-String stat=r.getParameter("status");
-String name=p.getName();
-uds.updateStatus(stat,name);
-return "redirect:/home";
-
-}
+	
+	
+	
+	
 	
 	
 }

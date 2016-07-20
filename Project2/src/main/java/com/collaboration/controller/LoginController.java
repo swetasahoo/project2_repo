@@ -1,6 +1,7 @@
 package com.collaboration.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.collaboration.DAO.UserDAOService;
+import com.collaboration.DAO.UserStatusDAOService;
 import com.collaboration.model.UserRole;
+import com.collaboration.model.UserStatus;
 import com.collaboration.model.Users;
 
 
@@ -24,13 +27,10 @@ public class LoginController {
 	
 	@Autowired
 	UserDAOService uds;
+	@Autowired
+	UserStatusDAOService usds;
 	
-	/*@Autowired
-	public LoginController(UserDAOService ud)
-	{
-		this.uds=ud;
-		
-	}*/
+
 	@RequestMapping("/")
 	public String login(@RequestParam (value="error", required = false) String error,
             @RequestParam (value="logout", required = false) String logout, Model model)
@@ -82,8 +82,14 @@ public class LoginController {
 		String nm=uds.getUserName(name);
 		m.addAttribute("name",name);
 		m.addAttribute("uname",nm);
+		List<UserStatus>  statuslist=usds.getUserStatus(name);
+		m.addAttribute("userstatus",statuslist);
+		for(UserStatus us:statuslist)
+		{
+			System.out.println("Status = "+us.getMystatus());
+		}
 		//ModelAndView o=new ModelAndView("home");
-		
+		//List<UserStatus> us=usds.getUserStatus(name);
 		return "home";
 	}
 }

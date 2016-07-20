@@ -23,18 +23,21 @@ public class MyBlog implements Serializable{
 	private int blogid;
 	private String blogtitle;
 	private String blogcontent;
+	String Username;
+	private int approve;
+	
 	@Transient
 	private MultipartFile doc;
 	
-	@ManyToOne
-	@JoinColumn(name = "Username")
-	private Users user;
+	/*@ManyToOne
+	@JoinColumn(name = "blogid")
+	private Users user;*/
 	
 	
-	public void setUser(Users user) {
+	/*public void setUser(Users user) {
 		this.user = user;
 	}
-	
+	*/
 	
 
 	public MultipartFile getDoc() {
@@ -46,12 +49,18 @@ public class MyBlog implements Serializable{
 	public void setDoc(MultipartFile doc) {
 		this.doc = doc;
 	}
-
-
-
-	public Users getUser() {
-		return user;
+	
+	public int getApprove() {
+		return approve;
 	}
+
+
+
+	public void setApprove(int approve) {
+		this.approve = approve;
+	}
+
+
 
 	public int getId() {
 		return blogid;
@@ -77,6 +86,21 @@ public class MyBlog implements Serializable{
 	public void setBlogcontent(String blogcontent) {
 		this.blogcontent = blogcontent;
 	}
+
+
+
+	public String getUsername() {
+		return Username;
+	}
+
+
+
+	public void setUsername(String username) {
+		Username = username;
+	}
+
+
+
 	
 	
 
